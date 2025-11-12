@@ -25,10 +25,15 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+    
+    # --- FIX 1: Corrected 'Install dependencies' step ---
     - name: Install dependencies
-    - run: npm install
-   # cache: 'npm'
-   # - run: npm ci
+      run: npm install
+   
+    # --- FIX 2: Corrected 'Build Project' step ---
     - name: Build Project
-    - run: npm run build 
-    - run: npm test
+      run: npm run build 
+      
+    # --- FIX 3: Added name for the 'npm test' step (optional, but good practice) ---
+    - name: Run tests
+      run: npm test
