@@ -28,7 +28,7 @@ jobs:
     
     # --- FIX 1: Corrected 'Install dependencies' step ---
     - name: Install dependencies
-      run: npm install
+      run: npm ci
    
     # --- FIX 2: Corrected 'Build Project' step ---
     - name: Build Project
