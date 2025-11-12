@@ -214,7 +214,7 @@ import './index.css';
 
 //                          Interaction Between Class Components - Parent to Child Communication 
 
-
+// using Props
 
 class Employee extends React.Component{
   constructor(props){
