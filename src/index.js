@@ -212,7 +212,7 @@ import './index.css';
 
 
 
-//                          Interaction Between Class Components - Parent to Child Communication using Props 
+//                          Interaction Between Class Components - Parent to Child Communication 
 
 
 
