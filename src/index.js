@@ -179,33 +179,67 @@ import './index.css';
 
 //                          Count Characters in Input Box - State and Event Handling
 
-class CountCharacters extends React.Component{
+// class CountCharacters extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={message:''};  
+//   }
+
+//   onMessageChange(text){
+//     this.setState({
+//       message:'Message has '+text.length+' number of characters'
+//     })
+//   }
+//   render(){
+//     return <div>
+//       <h2>Welcome to Count Characters Component</h2>
+//       <p>
+//         <label>Enter Message : <input type="text" 
+//         onChange={e=>this.onMessageChange(e.target.value)}></input></label>
+//       </p>
+//       <p>
+//         <label>{this.state.message}</label>
+//       </p>
+//     </div>
+//   }
+// }
+
+// const element = <CountCharacters></CountCharacters>;
+
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(element);
+
+
+
+
+//                          Interaction Between Components - Parent to Child Communication using Props
+
+
+
+class Employee extends React.Component{
   constructor(props){
     super(props);
-    this.state={message:''};  
-  }
-
-  onMessageChange(text){
-    this.setState({
-      message:'Message has '+text.length+' number of characters'
-    })
   }
   render(){
     return <div>
-      <h2>Welcome to Count Characters Component</h2>
-      <p>
-        <label>Enter Message : <input type="text" 
-        onChange={e=>this.onMessageChange(e.target.value)}></input></label>
-      </p>
-      <p>
-        <label>{this.state.message}</label>
-      </p>
+    <h2> Employee Details</h2>
+    <p>
+      <label> Employee Id : <b> {this.props.EmployeeId}</b></label>
+    </p>
+    <p>
+      <label> Name : <b> {this.props.Name}</b></label>
+    </p>
+    <p>
+      <label> Location : <b> {this.props.Location}</b></label>
+    </p>
+    <p>
+      <label> Salary : <b> {this.props.Salary}</b></label>
+    </p>
     </div>
+
+    const element = <Employee EmployeeId="1234" Name="Ganesh" Location="Bengaluru" Salary="100000"></Employee>
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(element);
   }
 }
-
-const element = <CountCharacters></CountCharacters>;
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(element);
-
