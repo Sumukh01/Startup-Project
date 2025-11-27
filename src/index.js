@@ -214,81 +214,202 @@ import './index.css';
 
 //                          Interaction Between Class Components - Parent to Child Communication using Props
 
+// class Employee extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       updatedSalary: null
+//     }
+//   }
 
+//   getUpdatedSalary=(salary)=>{
+//     this.setState({updatedSalary: salary});
+//   }
+//   render(){
+//     return <div>
+//     <h2> Employee Details</h2>
+//     <p>
+//       <label> Employee Id : <b> {this.props.EmployeeId}</b></label>
+//     </p>
+//     <p>
+//       <label> Name : <b> {this.props.Name}</b></label>
+//     </p>
+//     <p>
+//       <label> Location : <b> {this.props.Location}</b></label>
+//     </p>
+//     <p>
+//       <label> Total Salary : <b> {this.props.Salary}</b></label>
+//     </p>
+//     <p>
+//       <label> Updated Total Salary : <b> {this.state.updatedSalary}</b> </label>
+//     </p>
+//     <Salary BasicSalary = {this.props.BasicSalary} HRA = {this.props.HRA} SpecialAllowance = {this.props.SpecialAllowance}
+//     onSalaryChanged = {this.getUpdatedSalary}></Salary>
+//     </div>
+//   }
+// }
+// class Salary extends React.Component{
+//   constructor(props){
+//     super(props);
+//     // this.state ={
+//     //   basic: this.props.BasicSalary,
+//     //   hra: this.props.HRA,
+//     //   specialAllowance: this.props.SpecialAllowance
+//     // }
+//     this.basic = React.createRef();
+//     this.hra = React.createRef();
+//     this.sa = React.createRef();
+//   }
+
+//   UpdateSalary=()=>{
+//       let salary=parseInt(this.basic.current.value) + parseInt(this.hra.current.value) + parseInt(this.sa.current.value);
+
+//       this.props.onSalaryChanged(salary); // Invoking the callback function passed from parent component
+//     }
+//   render(){
+//     return <div>
+//       <h2>Salary Details</h2>
+//       <p>
+//         <label> Basic Salary : <input type='text' ref={this.basic} defaultValue={this.props.BasicSalary}/> </label>
+//       </p>
+//       <p>
+//         <label> HRA : <input type='text' ref={this.hra} defaultValue={this.props.HRA}></input></label>
+//       </p>
+//       <p>
+//         <label> SpecialAllowance: <input type='text' ref={this.sa} defaultValue={this.props.SpecialAllowance}></input></label>
+//       </p>
+//       <button onClick={this.UpdateSalary}> Update</button>
+//     </div>
+//   }
+// }
+
+
+// const element = <Employee EmployeeId="1234" Name="Ganesh" Location="Bengaluru" Salary="50000" BasicSalary = "25000"
+// HRA = "10000" SpecialAllowance = "15000"></Employee>
+
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(element);
+
+
+//                         Interaction Between Classes using Context 
+
+
+// const employeeContext = React.createContext();
+// class App extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       Id: 'E1001',
+//       Name: 'Ramesh',
+//       Location: 'Bengaluru',
+//       Salary: '30000'
+//     }
+//   }
+
+//   changeEmployeeData=()=>{
+//     this.setState({
+//       Id: 102
+//     })
+//   }
+//   render(){
+//     return <div>
+//         <h2>Welcome to App Component</h2>
+//         <p>
+//           <label>Employee ID : <b> {this.state.Id} </b></label>
+//         </p>
+//         <employeeContext.Provider value={this.state}>
+//           <Employee></Employee>
+//         </employeeContext.Provider>
+//         <p>
+//           <button onClick={this.changeEmployeeData}>Update</button>
+//         </p>
+//       </div>
+//   }
+// }
+
+// class Employee extends React.Component{
+//   static contextType = employeeContext;
+//   render(){
+//     return <div>
+//       <h2>Welcome to Employee Component</h2>
+//       <p>
+//         <label> Employee ID : <b> {this.context.Id} </b></label>
+//       </p>
+//       <Salary></Salary>
+//     </div>  
+//   }
+// }
+
+// class Salary extends React.Component{
+//   static contextType = employeeContext;
+//   render(){
+//     return <div>
+//       <h2>Welcome to Salary Component</h2>
+//       <p>
+//         <label> Employee ID : <b> {this.context.Id} </b></label>
+//       </p>
+//     </div>
+//   }
+// }
+
+// const element = <App></App>;
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(element);
+
+
+//                                           Interaction Between Components 
+
+const employeeContext = React.createContext({
+  data: '',
+  changeEmployeeInfo: () => {}
+});
+class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      data : {
+        Id: 'E1001',
+        Name: 'Ramesh',
+        Location: 'Bengaluru',
+        Salary: '30000'
+      },
+      changeEmployeeInfo: this.updateEmployeeDetails
+    };
+  }
+
+  updateEmployeeDetails = () =>{
+    this.setState({data: {Id: 'E200'}});
+  }
+
+  render(){
+    return <div>
+        <h2>Welcome to App Component</h2>
+        <p>
+          <label>Employee ID : <b> {this.state.data.Id} </b></label>
+        </p>
+        <employeeContext.Provider value={this.state}>
+          <Employee></Employee>
+        </employeeContext.Provider>
+        {/* <p>
+          <button onClick={this.changeEmployeeData}>Update</button>
+        </p> */}
+      </div>
+  }
+}
 
 class Employee extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={
-      updatedSalary: null
-    }
-  }
-
-  getUpdatedSalary=(salary)=>{
-    this.setState({updatedSalary: salary});
-  }
+  static contextType = employeeContext;
   render(){
     return <div>
-    <h2> Employee Details</h2>
-    <p>
-      <label> Employee Id : <b> {this.props.EmployeeId}</b></label>
-    </p>
-    <p>
-      <label> Name : <b> {this.props.Name}</b></label>
-    </p>
-    <p>
-      <label> Location : <b> {this.props.Location}</b></label>
-    </p>
-    <p>
-      <label> Total Salary : <b> {this.props.Salary}</b></label>
-    </p>
-    <p>
-      <label> Updated Total Salary : <b> {this.state.updatedSalary}</b> </label>
-    </p>
-    <Salary BasicSalary = {this.props.BasicSalary} HRA = {this.props.HRA} SpecialAllowance = {this.props.SpecialAllowance}
-    onSalaryChanged = {this.getUpdatedSalary}></Salary>
-    </div>
+      <h2>Welcome to Employee Component</h2>
+      <p>
+        <label> Employee ID : <b> {this.context.data.Id} </b></label>
+      </p>
+      <button onClick={this.context.changeEmployeeInfo}> Update </button>
+    </div>  
   }
 }
 
-class Salary extends React.Component{
-  constructor(props){
-    super(props);
-    // this.state ={
-    //   basic: this.props.BasicSalary,
-    //   hra: this.props.HRA,
-    //   specialAllowance: this.props.SpecialAllowance
-    // }
-    this.basic = React.createRef();
-    this.hra = React.createRef();
-    this.sa = React.createRef();
-  }
-
-  UpdateSalary=()=>{
-      let salary=parseInt(this.basic.current.value) + parseInt(this.hra.current.value) + parseInt(this.sa.current.value);
-
-      this.props.onSalaryChanged(salary);
-    }
-  render(){
-    return <div>
-      <h2>Salary Details</h2>
-      <p>
-        <label> Basic Salary : <input type='text' ref={this.basic} defaultValue={this.props.BasicSalary}/> </label>
-      </p>
-      <p>
-        <label> HRA : <input type='text' ref={this.hra} defaultValue={this.props.HRA}></input></label>
-      </p>
-      <p>
-        <label> SpecialAllowance: <input type='text' ref={this.sa} defaultValue={this.props.SpecialAllowance}></input></label>
-      </p>
-      <button onClick={this.UpdateSalary}> Update</button>
-    </div>
-  }
-}
-
-
-const element = <Employee EmployeeId="1234" Name="Ganesh" Location="Bengaluru" Salary="50000" BasicSalary = "25000"
-HRA = "10000" SpecialAllowance = "15000"></Employee>
-
+const element = <App></App>;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(element);
